@@ -97,6 +97,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  fluid:
+    dependency: "direct main"
+    description:
+      name: fluid
+      sha256: b262756fe889492744b38c7c632505e5086f9bc339b2727b78ba0bfb37cd19eb
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.3"
   flutter:
     dependency: "direct main"
     description: flutter

@@ -121,9 +121,9 @@ class _WallpaperDetailPageState extends State<WallpaperDetailPage> {
   );
 
   try {
-    // Set wallpaper using AsyncWallpaper
+    // Use the correct file path, in this case, 'wallpaper.imagePath'
     bool success = await AsyncWallpaper.setWallpaperFromFile(
-      filePath: wallpaper.imagePath,  // Assuming imagePath is the URL of the wallpaper
+      filePath: wallpaper.imagePath,  // Assuming imagePath is the correct path
       wallpaperLocation: AsyncWallpaper.HOME_SCREEN,
       goToHome: false, // Set to your desired value
       toastDetails: ToastDetails.success(),
