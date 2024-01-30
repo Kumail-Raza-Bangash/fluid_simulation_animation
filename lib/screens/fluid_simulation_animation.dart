@@ -45,10 +45,10 @@ class _FluidSimulationAnimationState extends State<FluidSimulationAnimation>
       particle.y += particle.velocityY;
 
       // Bounce off walls
-      if (particle.x < 0 || particle.x > 200) {
+      if (particle.x < 0 || particle.x > 400) {
         particle.velocityX = -particle.velocityX;
       }
-      if (particle.y < 0 || particle.y > 200) {
+      if (particle.y < 0 || particle.y > 900) {
         particle.velocityY = -particle.velocityY;
       }
     }
@@ -64,7 +64,7 @@ class _FluidSimulationAnimationState extends State<FluidSimulationAnimation>
           builder: (context, child) {
             return CustomPaint(
               painter: FluidPainter(particles),
-              size: const Size(200, 200),
+              size: const Size(400, 900),
             );
           },
         ),

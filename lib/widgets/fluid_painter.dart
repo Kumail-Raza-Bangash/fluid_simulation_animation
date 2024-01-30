@@ -10,7 +10,7 @@ class FluidPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..color = Colors.blue
+      ..color = Colors.black
       ..style = PaintingStyle.fill;
 
     for (var particle in particles) {
