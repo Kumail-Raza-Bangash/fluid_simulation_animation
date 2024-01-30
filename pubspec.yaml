@@ -41,6 +41,9 @@ dependencies:
   callkeep: ^0.3.3
   contacts_service: ^0.6.3
   flutter_ringtone_player: ^3.2.0
+  async_wallpaper: ^2.0.3
+  flutter_wallpaper_manager: ^0.0.4
+  flutter_cache_manager: ^3.3.1
 
 dev_dependencies:
   flutter_test:
