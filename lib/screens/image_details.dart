@@ -1,6 +1,9 @@
+
+import 'package:async_wallpaper/async_wallpaper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_caller_theme_01/models/wallpaper_model.dart';
 import 'package:flutter_caller_theme_01/provider/wallpaper_provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class WallpaperDetailPage extends StatefulWidget {
@@ -61,14 +64,14 @@ class _WallpaperDetailPageState extends State<WallpaperDetailPage> {
         children: [
           buildTextButton(
             onPressed: () {
-              // Implement your share action
+              Navigator.of(context).pop();
             },
             iconPath: 'lib/assets/icons/share.png',
           ),
           const SizedBox(width: 16.0),
           buildTextButton(
             onPressed: () {
-              // Implement your detail action
+              Navigator.of(context).pop();
             },
             iconPath: 'lib/assets/icons/detail.png',
           ),
@@ -87,7 +90,7 @@ class _WallpaperDetailPageState extends State<WallpaperDetailPage> {
           height: 50.0,
           child: ElevatedButton(
             onPressed: () {
-              wallpaperProvider.setWallpaper(widget.wallpaper);
+              setWallpaper(wallpaperProvider); // Call the method to set wallpaper
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.black.withOpacity(0.4),
@@ -101,6 +104,75 @@ class _WallpaperDetailPageState extends State<WallpaperDetailPage> {
       ),
     );
   }
+
+
+  void setWallpaper(WallpaperProvider wallpaperProvider) async {
+  Wallpaper wallpaper = widget.wallpaper;
+
+  // Show loading indicator
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    },
+  );
+
+  try {
+    // Set wallpaper using AsyncWallpaper
+    bool success = await AsyncWallpaper.setWallpaperFromFile(
+      filePath: wallpaper.imagePath,  // Assuming imagePath is the URL of the wallpaper
+      wallpaperLocation: AsyncWallpaper.HOME_SCREEN,
+      goToHome: false, // Set to your desired value
+      toastDetails: ToastDetails.success(),
+      errorToastDetails: ToastDetails.error(), 
+    );
+
+    // Hide loading indicator
+    // ignore: use_build_context_synchronously
+    Navigator.pop(context);
+
+    if (success) {
+      // Show toast message
+      Fluttertoast.showToast(
+        msg: 'Wallpaper set successfully!',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black.withOpacity(0.8),
+        textColor: Colors.white,
+      );
+    } else {
+      // Handle the case where setting the wallpaper was not successful
+      Fluttertoast.showToast(
+        msg: 'Error setting wallpaper',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red.withOpacity(0.8),
+        textColor: Colors.white,
+      );
+    }
+  } catch (e) {
+    // Hide loading indicator
+    // ignore: use_build_context_synchronously
+    Navigator.pop(context);
+
+    // Handle errors or show a message to the user
+    Fluttertoast.showToast(
+      msg: 'Error setting wallpaper: $e',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red.withOpacity(0.8),
+      textColor: Colors.white,
+    );
+  }
+}
+
+
 
   Widget buildTextButton({
     required VoidCallback onPressed,

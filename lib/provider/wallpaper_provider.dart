@@ -1,7 +1,5 @@
-import 'package:async_wallpaper/async_wallpaper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_caller_theme_01/models/wallpaper_model.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class WallpaperProvider extends ChangeNotifier {
   final List<Wallpaper> _wallpapers = [
@@ -15,8 +13,8 @@ class WallpaperProvider extends ChangeNotifier {
     Wallpaper('TRENDING', 'lib/assets/images/005.jpg', false),
     Wallpaper('FEATURE', 'lib/assets/images/006.jpg', false),
     Wallpaper('VIP', 'lib/assets/gifs/G005.gif', true),
-    Wallpaper('NEW', 'lib/assets/images/007.jpg', false),
-    Wallpaper('TRENDING', 'lib/assets/images/008.jpg', false),
+    //Wallpaper('NEW', 'lib/assets/images/007.jpg', false),
+    //Wallpaper('TRENDING', 'lib/assets/images/008.jpg', false),
     Wallpaper('NEW', 'lib/assets/images/002.jpg', false),
   ];
 
@@ -26,58 +24,30 @@ class WallpaperProvider extends ChangeNotifier {
 
   Wallpaper get selectedWallpaper => _wallpapers[_selectedIndex];
 
+  String? get wallpaperUrl => null;
+
   void selectWallpaper(int index) {
     _selectedIndex = index;
     notifyListeners();
   }
 
-  void setWallpaper(Wallpaper wallpaper) async {
-    Wallpaper wallpaper = selectedWallpaper;
+  List<Wallpaper> getAllWallpapers() {
+    return _wallpapers;
+  }
 
-    // Show loading indicator
-    try {
-      // Set wallpaper using AsyncWallpaper
-      bool success = await AsyncWallpaper.setWallpaperFromFile(
-        filePath: wallpaper.imagePath,
-        wallpaperLocation: AsyncWallpaper.HOME_SCREEN,
-        goToHome: false,
-        toastDetails: ToastDetails.success(),
-        errorToastDetails: ToastDetails.error(),
-      );
+  List<Wallpaper> getVipWallpapers() {
+    return _wallpapers.where((wallpaper) => wallpaper.name == 'VIP').toList();
+  }
 
-      if (success) {
-        // Show toast message
-        Fluttertoast.showToast(
-          msg: 'Wallpaper set successfully!',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.black.withOpacity(0.8),
-          textColor: Colors.white,
-        );
-      } else {
-        // Handle the case where setting the wallpaper was not successful
-        Fluttertoast.showToast(
-          msg: 'Error setting wallpaper',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red.withOpacity(0.8),
-          textColor: Colors.white,
-        );
-      }
-    } catch (e) {
-      // Handle errors or show a message to the user
-      Fluttertoast.showToast(
-        msg: 'Error setting wallpaper: $e',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red.withOpacity(0.8),
-        textColor: Colors.white,
-      );
-    }
+  List<Wallpaper> getNewWallpapers() {
+    return _wallpapers.where((wallpaper) => wallpaper.name == 'NEW').toList();
+  }
 
-    notifyListeners();
+  List<Wallpaper> getTrendingWallpapers() {
+    return _wallpapers.where((wallpaper) => wallpaper.name == 'TRENDING').toList();
+  }
+
+  List<Wallpaper> getFeatureWallpapers() {
+    return _wallpapers.where((wallpaper) => wallpaper.name == 'FEATURE').toList();
   }
 }
